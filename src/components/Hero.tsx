@@ -1,7 +1,10 @@
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Phone, Clock } from "lucide-react";
 
 const Hero = () => {
+  const [bgLoaded, setBgLoaded] = useState(false);
+
   const scrollToMenu = () => {
     const menuSection = document.getElementById("cardapio");
     menuSection?.scrollIntoView({ behavior: "smooth" });
@@ -14,12 +17,24 @@ const Hero = () => {
     );
   };
 
+  const imageUrl =
+    "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1600&q=80";
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = imageUrl;
+    img.onload = () => setBgLoaded(true);
+  }, []);
+
   return (
     <section
-      className="relative h-screen flex items-center justify-center bg-cover bg-center overflow-hidden"
+      className={`relative h-screen flex items-center justify-center overflow-hidden transition-opacity duration-700 ${
+        bgLoaded ? "opacity-100" : "opacity-0"
+      }`}
       style={{
-        backgroundImage:
-          "url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1600&q=80&blur=100')",
+        backgroundImage: bgLoaded ? `url('${imageUrl}')` : "none",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
       }}
     >
       {/* Overlay escura para contraste */}
@@ -67,8 +82,6 @@ const Hero = () => {
           </span>
         </div>
       </div>
-
-      
     </section>
   );
 };
