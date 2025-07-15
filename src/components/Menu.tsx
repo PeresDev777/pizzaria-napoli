@@ -1,4 +1,4 @@
-
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -9,44 +9,52 @@ const Menu = () => {
       name: "Margherita",
       description: "Molho de tomate, mussarela, manjericão fresco e azeite",
       price: "R$ 38,90",
-      image: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3"
+      image: "/images/margherita.jpg",
     },
     {
       id: 2,
       name: "Pepperoni",
       description: "Molho de tomate, mussarela e pepperoni artesanal",
       price: "R$ 42,90",
-      image: "https://images.unsplash.com/photo-1628840042765-356cda07504e?ixlib=rb-4.0.3"
+      image: "/images/pepperoni.jpg",
     },
     {
       id: 3,
       name: "Quattro Formaggi",
       description: "Mussarela, gorgonzola, parmesão e provolone",
       price: "R$ 46,90",
-      image: "/images/quattroformaggi.jpg"
+      image: "/images/quattroformaggi.jpg",
     },
     {
       id: 4,
       name: "Calabresa",
       description: "Molho de tomate, mussarela, calabresa e cebola",
       price: "R$ 39,90",
-      image: "https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?ixlib=rb-4.0.3"
+      image: "/images/calabresa.jpg",
     },
     {
       id: 5,
       name: "Portuguesa",
       description: "Presunto, ovos, ervilha, cebola, azeitona e mussarela",
       price: "R$ 44,90",
-      image: "https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?ixlib=rb-4.0.3"
+      image: "/images/portuguesa.jpg",
     },
     {
       id: 6,
       name: "Napolitana",
       description: "Molho de tomate, mussarela, tomate, atum e azeitona",
       price: "R$ 43,90",
-      image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3"
-    }
+      image: "/images/napolitana.jpg",
+    },
   ];
+
+  // Pré-carregar imagens no background
+  useEffect(() => {
+    pizzas.forEach((pizza) => {
+      const img = new Image();
+      img.src = pizza.image + "?q=70&auto=format";
+    });
+  }, []);
 
   return (
     <section id="cardapio" className="py-16 md:py-24 bg-white">
@@ -61,34 +69,37 @@ const Menu = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
           {pizzas.map((pizza) => (
             <Card
               key={pizza.id}
-              className="group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-pizza-green shadow-lg overflow-hidden bg-pizza-cream flex flex-col h-full"
+              className="group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-pizza-green shadow-lg overflow-hidden bg-pizza-cream"
             >
               <div className="relative overflow-hidden">
                 <img
-                  src={pizza.image}
+                  src={pizza.image + "?q=70&auto=format"}
                   alt={pizza.name}
-                  className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
+                  className="w-full h-48 sm:h-56 object-cover group-hover:scale-110 transition-transform duration-300"
+                  loading="lazy"
+                  width={600}
+                  height={300}
                 />
                 <div className="absolute top-4 right-4 bg-pizza-red text-pizza-cream px-3 py-1 rounded-full border border-pizza-yellow">
-                  <span className="font-lora font-bold text-sm">{pizza.price}</span>
+                  <span className="font-lora font-bold text-sm">
+                    {pizza.price}
+                  </span>
                 </div>
               </div>
 
-              <CardContent className="p-6 flex flex-col justify-between h-full">
-                <div>
-                  <h3 className="font-cinzel font-bold text-xl text-pizza-brown mb-2">
-                    {pizza.name}
-                  </h3>
-                  <p className="font-lora text-pizza-brown opacity-80 mb-4 leading-relaxed">
-                    {pizza.description}
-                  </p>
-                </div>
+              <CardContent className="p-6">
+                <h3 className="font-cinzel font-bold text-xl text-pizza-brown mb-2">
+                  {pizza.name}
+                </h3>
+                <p className="font-lora text-pizza-brown opacity-80 mb-4 leading-relaxed">
+                  {pizza.description}
+                </p>
                 <Button
-                  className="mt-auto w-full bg-pizza-yellow hover:bg-pizza-yellow/90 text-pizza-brown font-lora font-semibold border-2 border-pizza-green"
+                  className="w-full bg-pizza-yellow hover:bg-pizza-yellow/90 text-pizza-brown font-lora font-semibold border-2 border-pizza-green"
                   onClick={() =>
                     window.open(
                       `https://wa.me/5551991828651?text=Olá! Gostaria de pedir uma pizza ${pizza.name}`,
